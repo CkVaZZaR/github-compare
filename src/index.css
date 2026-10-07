@@ -118,6 +118,31 @@ nav a.active {
   font-weight: 600;
 }
 
+.rate-limit {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: default;
+}
+
+.rate-limit--ok {
+  color: var(--text-muted);
+  background: var(--surface-muted);
+}
+
+.rate-limit--low {
+  color: var(--highlight-text);
+  background: var(--highlight-bg);
+}
+
+.rate-limit--empty {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
 .theme-toggle {
   width: 36px;
   height: 36px;

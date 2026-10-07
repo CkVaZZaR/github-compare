@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-do
 import HomePage from './pages/HomePage';
 import ComparePage from './pages/ComparePage';
 import ThemeToggle from './components/ThemeToggle';
+import RateLimitBadge from './components/RateLimitBadge';
 import { ThemeProvider } from './theme';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
             <NavLink to="/" end>Home</NavLink>
             <NavLink to="/compare">Compare</NavLink>
           </nav>
+          <RateLimitBadge />
           <ThemeToggle />
         </header>
         <main>
