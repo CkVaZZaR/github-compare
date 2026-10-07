@@ -1,19 +1,29 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ComparePage from './pages/ComparePage';
+import ThemeToggle from './components/ThemeToggle';
+import { ThemeProvider } from './theme';
 
 function App() {
   return (
-    <Router>
-      <nav>
-        <Link to="/">Home</Link> | 
-        <Link to="/compare">Compare</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/compare" element={<ComparePage />} />
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <header className="app-header">
+          <span className="brand">GitHub Analyzer</span>
+          <nav>
+            <NavLink to="/" end>Home</NavLink>
+            <NavLink to="/compare">Compare</NavLink>
+          </nav>
+          <ThemeToggle />
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/compare" element={<ComparePage />} />
+          </Routes>
+        </main>
+      </Router>
+    </ThemeProvider>
   );
 }
 
