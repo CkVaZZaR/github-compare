@@ -1,11 +1,22 @@
 // src/rateLimit.js
 import axios from "axios";
+import { API } from "./api";
 
 // Текущий лимит GitHub API: { limit, remaining, reset (мс) }
 let state = null;
 const listeners = new Set();
 
 const setState = (next) => {
+  // Внутри одного окна лимит только убывает: параллельные ответы приходят
+  // в произвольном порядке, а /rate_limit может отставать
+  if (
+    state &&
+    state.limit === next.limit &&
+    Date.now() < state.reset &&
+    next.remaining > state.remaining
+  ) {
+    return;
+  }
   state = next;
   listeners.forEach((listener) => listener(state));
 };
@@ -18,7 +29,7 @@ export const subscribeRateLimit = (listener) => {
 };
 
 const readHeaders = (response) => {
-  if (!response?.config?.url?.startsWith("https://api.github.com")) return;
+  if (!response?.config?.url?.startsWith(API)) return;
   const limit = response.headers["x-ratelimit-limit"];
   const remaining = response.headers["x-ratelimit-remaining"];
   const reset = response.headers["x-ratelimit-reset"];
@@ -30,7 +41,7 @@ const readHeaders = (response) => {
   });
 };
 
-// Каждый ответ GitHub API приносит актуальный лимит в заголовках
+// Каждый ответ бэкенда приносит последний известный лимит GitHub в заголовках
 axios.interceptors.response.use(
   (response) => {
     readHeaders(response);
@@ -45,7 +56,7 @@ axios.interceptors.response.use(
 // Запрос к /rate_limit сам лимит не расходует
 export const refreshRateLimit = async () => {
   try {
-    const { data } = await axios.get("https://api.github.com/rate_limit");
+    const { data } = await axios.get(`${API}/rate_limit`);
     const core = data.resources.core;
     setState({
       limit: core.limit,

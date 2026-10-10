@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API, errorMessage } from "../api";
 import UserCard from "../components/UserCard";
 
 const HomePage = () => {
@@ -15,22 +16,10 @@ const HomePage = () => {
     setLoading(true);
     setError("");
 
-    // try {
-    //   const response = await axios.get(`https://api.github.com/users/${username}`);
-    //   setUser(response.data);
-    // } catch (err) {
-    //   setError('User not found');
-    //   setUser(null);
-    // } finally {
-    //   setLoading(false);
-    // }
-
     try {
       const [userRes, reposRes] = await Promise.all([
-        axios.get(`https://api.github.com/users/${username}`),
-        axios.get(
-          `https://api.github.com/users/${username}/repos?per_page=100`
-        ),
+        axios.get(`${API}/users/${username}`),
+        axios.get(`${API}/users/${username}/repos`),
       ]);
 
       const userData = userRes.data;
@@ -47,8 +36,8 @@ const HomePage = () => {
 
       userData.languageStats = languageStats;
       setUser(userData);
-    } catch {
-      setError("User not found");
+    } catch (err) {
+      setError(errorMessage(err, "User not found"));
       setUser(null);
     } finally {
       setLoading(false);

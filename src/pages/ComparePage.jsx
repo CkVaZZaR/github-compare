@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API, errorMessage } from "../api";
 import UserCard from "../components/UserCard";
 import CompareTable from "../components/CompareTable";
 import ComparisonCharts from "../components/ComparisonCharts";
@@ -17,9 +18,7 @@ const ComparePage = () => {
   // Функция для получения статистики по языкам
   const fetchUserLanguages = async (username) => {
     try {
-      const reposResponse = await axios.get(
-        `https://api.github.com/users/${username}/repos?per_page=100`
-      );
+      const reposResponse = await axios.get(`${API}/users/${username}/repos`);
       const languageStats = {};
 
       // Собираем данные о языках
@@ -47,8 +46,8 @@ const ComparePage = () => {
     try {
       // Запрашиваем базовую информацию о пользователях
       const [userRes1, userRes2] = await Promise.all([
-        axios.get(`https://api.github.com/users/${username1}`),
-        axios.get(`https://api.github.com/users/${username2}`),
+        axios.get(`${API}/users/${username1}`),
+        axios.get(`${API}/users/${username2}`),
       ]);
 
       // Запрашиваем статистику по языкам для каждого пользователя
@@ -64,7 +63,7 @@ const ComparePage = () => {
       setUser1(user1Data);
       setUser2(user2Data);
     } catch (err) {
-      setError("Один или оба пользователя не найдены");
+      setError(errorMessage(err, "Один или оба пользователя не найдены"));
       console.error(err);
     } finally {
       setLoading(false);
