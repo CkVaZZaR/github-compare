@@ -61,7 +61,7 @@ const AuthButton = () => {
         href={`${API}/auth/login?next=${next}`}
         title='Личный лимит 5000 запросов/ч вместо общего'
       >
-        Войти через GitHub
+        Войти<span className='auth__long'> через GitHub</span>
       </a>
     </span>
   );

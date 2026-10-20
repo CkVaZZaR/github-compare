@@ -27,7 +27,7 @@ const CompareTable = ({ user1, user2 }) => {
           <th>Metric</th>
           <th>{user1.login}</th>
           <th>{user2.login}</th>
-          <th>Difference</th>
+          <th>Diff</th>
         </tr>
       </thead>
       <tbody>
