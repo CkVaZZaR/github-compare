@@ -53,6 +53,13 @@ axios.interceptors.response.use(
   }
 );
 
+// После входа/выхода лимит другой (личный или гостевой) — забываем старый,
+// иначе setState отбросит значение, которое больше текущего
+export const resetRateLimit = () => {
+  state = null;
+  return refreshRateLimit();
+};
+
 // Запрос к /rate_limit сам лимит не расходует
 export const refreshRateLimit = async () => {
   try {

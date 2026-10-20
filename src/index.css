@@ -143,6 +143,56 @@ nav a.active {
   border-color: var(--danger);
 }
 
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.auth__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.auth__login {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.auth__error {
+  color: var(--danger);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.auth__button {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.auth__button:hover:not(:disabled) {
+  background: var(--border);
+  text-decoration: none;
+}
+
+.auth__button--primary {
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.auth__button--primary:hover {
+  background: var(--accent-hover);
+}
+
 .theme-toggle {
   width: 36px;
   height: 36px;
@@ -442,6 +492,10 @@ button:disabled {
 
   .app-header {
     gap: 12px;
+  }
+
+  .auth__login {
+    display: none;
   }
 
   .search-container,

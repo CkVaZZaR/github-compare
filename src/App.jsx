@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import ComparePage from './pages/ComparePage';
 import ThemeToggle from './components/ThemeToggle';
 import RateLimitBadge from './components/RateLimitBadge';
+import AuthButton from './components/AuthButton';
 import { ThemeProvider } from './theme';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <NavLink to="/compare">Compare</NavLink>
           </nav>
           <RateLimitBadge />
+          <AuthButton />
           <ThemeToggle />
         </header>
         <main>

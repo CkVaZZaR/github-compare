@@ -6,6 +6,7 @@ export const API = "/api";
 export const errorMessage = (err, notFound) => {
   const status = err?.response?.status;
   if (status === 404) return notFound;
+  if (status === 401) return "Доступ к GitHub отозван, войдите снова";
   if (status === 429) {
     const reset = err.response.data?.reset;
     const time = reset
@@ -14,6 +15,9 @@ export const errorMessage = (err, notFound) => {
           minute: "2-digit",
         })
       : null;
+    if (err.response.data?.login_available) {
+      return "Гостевой лимит запросов к GitHub исчерпан — войдите через GitHub, чтобы получить свои 5000 запросов/ч";
+    }
     return time
       ? `Превышен лимит запросов к GitHub, повторите после ${time}`
       : "Превышен лимит запросов к GitHub, повторите позже";
